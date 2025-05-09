@@ -1,0 +1,33 @@
+def m(matchsticks):
+    if not (1 <= len(matchsticks) <= 15):
+        print("jumlah tidak matchstick memenuhi syarat")
+        return False
+    if any(stick < 1 or stick > 10**8 for stick in matchsticks):
+        print("Panjang tiap batang tidak memenuhi syarat")
+        return False
+    total = sum(matchsticks)
+    if total % 4 != 0:
+        return False
+    matchstickslength = total // 4
+    matchsticks.sort(reverse=True)
+    if matchsticks[0] > matchstickslength:
+        return False
+    awal = [0, 0, 0, 0]
+    for i in range(len(matchsticks)):
+        kondisi = False
+        for j in range(4):
+            if awal[j] + matchsticks[i] <= matchstickslength:
+                awal[j] += matchsticks[i]
+                kondisi = True
+                break
+        if  kondisi == False :
+            return False
+    return awal[0] == awal[1] == awal[2] == awal[3] == matchstickslength
+
+
+user_input = input("Masukkan panjang batang korek (pisahkan dengan koma): ")
+matchsticks = list(map(int, user_input.strip().split(',')))
+if m(matchsticks):
+    print("Bisa membuat persegi.")
+else:
+    print("Tidak bisa membuat persegi.")
